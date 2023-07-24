@@ -24,6 +24,8 @@ async function run() {
   try {
 
     const collegeCollection = client.db("collegeBooking").collection("college");
+    const addimissionCollection = client.db("collegeBooking").collection("addimission");
+    const reviewCollection = client.db("collegeBooking").collection("review");
 
     app.get("/college", async(req, res) => {
          const result = await collegeCollection.find({}).toArray();
@@ -39,6 +41,28 @@ async function run() {
     app.get("/addmission", async (req , res) =>{
         const result = await collegeCollection.find({}).toArray();
         res.send(result);
+    })
+
+    app.get("/review", async (req , res) =>{
+      const result = await reviewCollection.find({}).toArray();
+      res.send(result);
+    })
+
+    app.post("/review", async (req,res) =>{
+      const reviewItem = req.body;
+      const result = await reviewCollection.insertOne(reviewItem);
+      res.send(result);
+    })
+
+    app.post("/addmissions", async (req, res) => {
+      const addmissionInfo = req.body;
+      const result = await addimissionCollection.insertOne(addmissionInfo);
+      res.send(result);
+    });
+
+    app.get("/addmissions", async(req, res) =>{
+      const result = await addimissionCollection.find({}).toArray();
+      res.send(result);
     })
 
 
