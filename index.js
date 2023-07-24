@@ -60,6 +60,28 @@ async function run() {
       res.send(result);
     });
 
+    app.get("/update/:id", async(req, res) =>{
+      const id = req.params.id
+      const query = {_id: new ObjectId(id)};
+      const result = await addimissionCollection.findOne(query);
+      res.send(result);
+    })
+
+  app.patch('/update/:id' , async(req,res)=>{
+  const id = req.params.id;
+  const query = { _id: new ObjectId(id) };
+  const updateData = {
+    $set: {
+      subject: req.body.subject,
+      name: req.body.name,
+      email: req.body.email,
+      address: req.body.address,
+    },
+      };
+      const result = await addimissionCollection.updateOne(query,updateData);
+      res.send(result);
+    })
+
     app.get("/addmissions", async(req, res) =>{
       const result = await addimissionCollection.find({}).toArray();
       res.send(result);
